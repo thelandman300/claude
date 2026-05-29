@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Sell Your Westlake Village Home | Free Instant Home Valuation</title>
+  <meta name="description" content="Find out what your Westlake Village home is worth. Get an instant home valuation, see recent comparable sales, and request a free listing consultation with a local expert.">
+  <link rel="canonical" href="https://homesforsalewestlakevillage.com/sell.html">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="assets/css/styles.css">
+</head>
+<body data-page="sell">
+  <header id="site-header"></header>
+
+  <section class="section--tight bg-cream">
+    <div class="container">
+      <p class="eyebrow">For Sellers</p>
+      <h1 style="font-size:clamp(2rem,5vw,3.2rem);">What's Your Westlake Village Home Worth?</h1>
+      <p class="lead">Get an instant estimate, see what comparable homes recently sold for, and request a free, no-obligation listing consultation.</p>
+    </div>
+  </section>
+
+  <section class="section" style="padding-top:44px;">
+    <div class="container split">
+      <div class="form-card">
+        <h3 style="font-family:var(--sans);font-weight:700;">Instant Home Valuation</h3>
+        <p class="form-note" style="margin-top:0;margin-bottom:18px;">Enter a few details to get a sample market estimate in seconds.</p>
+        <form id="valuation-form">
+          <div class="form-group">
+            <label for="v-address">Property Address</label>
+            <input id="v-address" type="text" placeholder="123 Westlake Blvd, Westlake Village, CA" required>
+          </div>
+          <div class="form-row">
+            <div class="form-group">
+              <label for="v-hood">Neighborhood</label>
+              <select id="v-hood" data-hood-options><option value="">Select…</option></select>
+            </div>
+            <div class="form-group">
+              <label for="v-beds">Bedrooms</label>
+              <select id="v-beds">
+                <option value="2">2</option>
+                <option value="3" selected>3</option>
+                <option value="4">4</option>
+                <option value="5">5</option>
+                <option value="6">6+</option>
+              </select>
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="v-sqft">Approx. Square Footage</label>
+            <input id="v-sqft" type="number" min="500" step="50" value="2500" required>
+          </div>
+          <button type="submit" class="btn btn--gold btn--block">Get My Estimate</button>
+          <p class="form-note">Sample estimate for illustration. A precise valuation requires an agent walkthrough.</p>
+        </form>
+      </div>
+
+      <div>
+        <div id="valuation-result" class="valuation-result" style="display:none;"></div>
+        <div id="valuation-pitch">
+          <p class="eyebrow">Why Sell With Us</p>
+          <h2 style="font-size:2rem;">A Strong Market, Expertly Worked</h2>
+          <ul style="list-style:none;padding:0;margin:18px 0 0;color:var(--muted);">
+            <li style="padding:10px 0;border-bottom:1px solid var(--line);">✓ &nbsp;Local pricing strategy backed by live Westlake Village data</li>
+            <li style="padding:10px 0;border-bottom:1px solid var(--line);">✓ &nbsp;Professional photography and luxury marketing</li>
+            <li style="padding:10px 0;border-bottom:1px solid var(--line);">✓ &nbsp;Maximum exposure to qualified, motivated buyers</li>
+            <li style="padding:10px 0;">✓ &nbsp;An AI concierge that captures and qualifies leads around the clock</li>
+          </ul>
+          <a href="contact.html?subject=Listing%20consultation%20request" class="btn btn--outline" style="margin-top:22px;">Request a Free Consultation</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section bg-cream">
+    <div class="container">
+      <div class="sec-head center">
+        <p class="eyebrow">Recently Sold</p>
+        <h2>Comparable Sales Near You</h2>
+        <p class="lead">A look at homes that recently closed across Westlake Village neighborhoods.</p>
+      </div>
+      <div class="grid grid--3" id="recent-sales"></div>
+    </div>
+  </section>
+
+  <section class="section bg-navy center">
+    <div class="container">
+      <p class="eyebrow">Ready When You Are</p>
+      <h2>Let's Get Your Home Sold</h2>
+      <p class="lead">Request a free listing consultation and we'll walk you through pricing, prep, and a marketing plan tailored to your home.</p>
+      <div style="display:flex;gap:14px;justify-content:center;flex-wrap:wrap;margin-top:24px;">
+        <a href="contact.html?subject=Listing%20consultation%20request" class="btn btn--gold">Book My Consultation</a>
+        <button class="btn btn--ghost" onclick="WLVApp.openConcierge()">Ask the Concierge</button>
+      </div>
+    </div>
+  </section>
+
+  <footer id="site-footer"></footer>
+
+  <script src="assets/js/data.js"></script>
+  <script src="assets/js/app.js"></script>
+</body>
+</html>

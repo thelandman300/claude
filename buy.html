@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Homes For Sale in Westlake Village, CA — Browse All Listings</title>
+  <meta name="description" content="Browse every home for sale in Westlake Village, CA. Filter by price, beds, baths, neighborhood, and property type. Updated listings across North Ranch, Westlake Island, The Trails and more.">
+  <link rel="canonical" href="https://homesforsalewestlakevillage.com/buy.html">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="assets/css/styles.css">
+</head>
+<body data-page="buy">
+  <header id="site-header"></header>
+
+  <section class="section--tight bg-cream">
+    <div class="container">
+      <p class="eyebrow">For Buyers</p>
+      <h1 style="font-size:clamp(2rem,5vw,3.2rem);">Homes For Sale in Westlake Village</h1>
+      <p class="lead">Every active listing in one place. Filter to find exactly what you're looking for — then schedule a showing or ask our concierge anything.</p>
+    </div>
+  </section>
+
+  <section class="section" style="padding-top:36px;">
+    <div class="container">
+      <div class="filters">
+        <div class="field">
+          <label for="f-hood">Neighborhood</label>
+          <select id="f-hood" data-hood-options><option value="">All</option></select>
+        </div>
+        <div class="field">
+          <label for="f-type">Type</label>
+          <select id="f-type">
+            <option value="">All</option>
+            <option value="Single Family">Single Family</option>
+            <option value="Townhome">Townhome</option>
+            <option value="Condo">Condo</option>
+          </select>
+        </div>
+        <div class="field">
+          <label for="f-min">Min Price</label>
+          <select id="f-min">
+            <option value="">No Min</option>
+            <option value="750000">$750K</option>
+            <option value="1000000">$1M</option>
+            <option value="1500000">$1.5M</option>
+            <option value="2500000">$2.5M</option>
+          </select>
+        </div>
+        <div class="field">
+          <label for="f-max">Max Price</label>
+          <select id="f-max">
+            <option value="">No Max</option>
+            <option value="1000000">$1M</option>
+            <option value="1500000">$1.5M</option>
+            <option value="2500000">$2.5M</option>
+            <option value="5000000">$5M</option>
+          </select>
+        </div>
+        <div class="field">
+          <label for="f-beds">Beds</label>
+          <select id="f-beds">
+            <option value="">Any</option>
+            <option value="2">2+</option>
+            <option value="3">3+</option>
+            <option value="4">4+</option>
+            <option value="5">5+</option>
+          </select>
+        </div>
+        <div class="field">
+          <label for="f-sort">Sort</label>
+          <select id="f-sort">
+            <option value="newest">Newest</option>
+            <option value="price-asc">Price ↑</option>
+            <option value="price-desc">Price ↓</option>
+            <option value="sqft">Largest</option>
+          </select>
+        </div>
+      </div>
+      <div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:12px;">
+        <p class="results-meta" id="results-meta"></p>
+        <button class="chip" id="f-reset" style="border-color:var(--line);color:var(--muted);">Reset filters</button>
+      </div>
+
+      <div class="grid grid--3" id="listing-grid" style="margin-top:8px;"></div>
+    </div>
+  </section>
+
+  <section class="section bg-navy center">
+    <div class="container">
+      <p class="eyebrow">Can't Find It?</p>
+      <h2>Let Us Hunt for You</h2>
+      <p class="lead">New homes hit the market every week — many before they're widely advertised. Tell us what you're after and we'll set up custom alerts.</p>
+      <div style="display:flex;gap:14px;justify-content:center;flex-wrap:wrap;margin-top:24px;">
+        <a href="contact.html?subject=Set%20up%20a%20home%20search%20alert" class="btn btn--gold">Set Up Alerts</a>
+        <button class="btn btn--ghost" onclick="WLVApp.openConcierge()">Ask the Concierge</button>
+      </div>
+    </div>
+  </section>
+
+  <footer id="site-footer"></footer>
+
+  <div class="modal" id="listing-modal">
+    <div class="modal__overlay"></div>
+    <div class="modal__box">
+      <button class="modal__close" aria-label="Close">×</button>
+      <div id="modal-content"></div>
+    </div>
+  </div>
+
+  <script src="assets/js/data.js"></script>
+  <script src="assets/js/app.js"></script>
+</body>
+</html>
