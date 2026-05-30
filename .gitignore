@@ -1,0 +1,16 @@
+# Dependencies
+server/node_modules/
+node_modules/
+
+# Secrets & runtime
+.env
+server/.env
+*.env.local
+
+# Captured leads (demo persistence — don't commit prospect PII)
+leads.jsonl
+server/leads.jsonl
+
+# Logs / OS cruft
+*.log
+.DS_Store

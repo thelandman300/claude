@@ -349,6 +349,7 @@
      AI Concierge (rule-based sample assistant + lead capture)
      --------------------------------------------------------------------- */
   var concierge = { open: false, stage: "chat", lead: {} };
+  var conciergeHistory = []; // [{role, content}] sent to the Claude backend
 
   function renderConcierge() {
     var fab = document.createElement("button");
@@ -381,9 +382,8 @@
       var inp = document.getElementById("conciergeInput");
       var v = inp.value.trim();
       if (!v) return;
-      pushUser(v);
       inp.value = "";
-      setTimeout(function () { botRespond(v); }, 350);
+      sendToConcierge(v);
     });
 
     greet();
@@ -428,9 +428,8 @@
       c.className = "chip";
       c.textContent = label;
       c.addEventListener("click", function () {
-        pushUser(label);
         wrap.remove();
-        setTimeout(function () { botRespond(label); }, 300);
+        sendToConcierge(label);
       });
       wrap.appendChild(c);
     });
@@ -438,8 +437,91 @@
     scrollBottom();
   }
 
-  // Very small intent matcher — stands in for a real LLM concierge.
-  function botRespond(text) {
+  // Entry point for every user message: show it, record it, get a reply.
+  function sendToConcierge(text) {
+    pushUser(text);
+    conciergeHistory.push({ role: "user", content: text });
+    botRespondAI();
+  }
+
+  // Stream a reply from the Claude-backed /api/concierge endpoint.
+  // Falls back to the offline rule-based assistant if the API is unavailable
+  // (e.g. the site is served statically without the Node backend running).
+  function botRespondAI() {
+    var bubble = document.createElement("div");
+    bubble.className = "msg msg--bot";
+    bubble.textContent = "…";
+    bodyEl().appendChild(bubble);
+    scrollBottom();
+
+    fetch("/api/concierge", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ messages: conciergeHistory })
+    }).then(function (resp) {
+      if (!resp.ok || !resp.body) throw new Error("Concierge API unavailable");
+      var reader = resp.body.getReader();
+      var decoder = new TextDecoder();
+      var buffer = "";
+      var full = "";
+
+      function pump() {
+        return reader.read().then(function (chunk) {
+          if (chunk.done) return finish();
+          buffer += decoder.decode(chunk.value, { stream: true });
+          var parts = buffer.split("\n\n");
+          buffer = parts.pop();
+          for (var i = 0; i < parts.length; i++) {
+            var dataLine = parts[i].split("\n").filter(function (l) {
+              return l.indexOf("data:") === 0;
+            })[0];
+            if (!dataLine) continue;
+            var payload;
+            try { payload = JSON.parse(dataLine.slice(5).trim()); } catch (e) { continue; }
+            if (payload.type === "text") {
+              full += payload.text;
+              bubble.textContent = full;
+              scrollBottom();
+            } else if (payload.type === "lead_captured") {
+              var first = payload.lead && payload.lead.name ? payload.lead.name.split(" ")[0] : "";
+              toast("Thanks" + (first ? ", " + first : "") + "! A specialist will follow up shortly.");
+            } else if (payload.type === "error") {
+              throw new Error(payload.message || "Concierge error");
+            }
+          }
+          return pump();
+        });
+      }
+
+      function finish() {
+        if (!full.trim()) throw new Error("Empty response");
+        bubble.innerHTML = formatBotText(full);
+        scrollBottom();
+        conciergeHistory.push({ role: "assistant", content: full });
+      }
+
+      return pump();
+    }).catch(function () {
+      // Graceful degradation: drop the empty bubble and use the local matcher.
+      bubble.remove();
+      var last = conciergeHistory.length ? conciergeHistory[conciergeHistory.length - 1].content : "";
+      botRespondFallback(last);
+    });
+  }
+
+  // Lightweight, injection-safe formatting for streamed model text.
+  function formatBotText(s) {
+    var esc = s.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
+    esc = esc.replace(/\*\*([^*]+)\*\*/g, "<b>$1</b>");
+    esc = esc.replace(/\[([^\]]+)\]\((https?:\/\/[^\s)]+|[\w./?=#-]+\.html[^\s)]*)\)/g, '<a href="$2">$1</a>');
+    esc = esc.replace(/(^|[\s(])((?:buy|sell|neighborhoods|contact|index)\.html)\b/g, '$1<a href="$2">$2</a>');
+    esc = esc.replace(/(^|[\s(])(https?:\/\/[^\s<]+)/g, '$1<a href="$2" target="_blank" rel="noopener">$2</a>');
+    return esc.replace(/\n/g, "<br>");
+  }
+
+  // Offline fallback — small intent matcher used when the Claude backend
+  // can't be reached. Keeps the widget useful on static-only hosting.
+  function botRespondFallback(text) {
     var t = text.toLowerCase();
 
     // Lead capture flow
@@ -554,12 +636,7 @@
   }
   function askAbout(address) {
     openConcierge();
-    pushUser("Tell me about " + address);
-    setTimeout(function () {
-      pushBot("Great choice! " + address + " is one of our current listings. I can arrange a private showing or send you the full details and disclosures. What's the best way to reach you?");
-      concierge.stage = "ask-contact";
-      concierge.lead.interest = address;
-    }, 400);
+    sendToConcierge("I'm interested in " + address + " — can you tell me more and help me schedule a showing?");
   }
 
   /* ---------------------------------------------------------------------

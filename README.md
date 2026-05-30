@@ -15,7 +15,7 @@ Pure static HTML/CSS/JS — no build step, no dependencies. Open `index.html` in
 | `contact.html` | Lead capture / contact form |
 
 ### Shared pieces (injected on every page)
-- **AI Concierge** — a 24/7 chat widget (bottom-right) that answers buyer/seller questions, surfaces market data, and captures + qualifies leads. Currently a rule-based sample assistant; see "Going live" to swap in a real LLM.
+- **AI Concierge** — a 24/7 chat widget (bottom-right) that answers buyer/seller questions, surfaces market data, and captures + qualifies leads. Backed by **Claude** via the Node server (`server/`); falls back to a local rule-based assistant when the backend isn't reachable (e.g. static-only hosting).
 - Header nav + footer
 - Listing detail modal
 
@@ -25,23 +25,44 @@ index.html  buy.html  neighborhoods.html  sell.html  contact.html
 assets/
   css/styles.css     # luxury navy + champagne-gold design system
   js/data.js         # SAMPLE listings, neighborhoods, market stats, comps
-  js/app.js          # rendering, filters, valuation, concierge, lead capture
+  js/app.js          # rendering, filters, valuation, concierge (streaming + fallback)
+server/
+  server.js          # Express: serves the static site + the concierge API
+  concierge.js       # POST /api/concierge — streams Claude over SSE, runs the lead tool
+  wlv-context.js     # builds the cached system prompt + capture_lead tool definition
+  leads.js           # demo lead persistence (swap for your CRM)
+  .env.example       # ANTHROPIC_API_KEY, CONCIERGE_MODEL, PORT, LEADS_FILE
 robots.txt  sitemap.xml
 ```
 
-## Run a local preview
+## Run it
+
+**Full experience (Claude concierge):** run the Node server — it serves the site *and* the API on one port.
 
 ```bash
-python3 -m http.server 8000
-# then open http://localhost:8000
+cd server
+npm install
+ANTHROPIC_API_KEY=sk-ant-... npm start
+# open http://localhost:8000
 ```
+
+**Static-only preview (no backend):** the site still works; the concierge falls back to the offline rule-based assistant.
+
+```bash
+python3 -m http.server 8000   # from the repo root
+```
+
+### How the AI Concierge works
+- The widget POSTs the conversation to **`/api/concierge`**, which calls Claude (`claude-opus-4-8` by default — set `CONCIERGE_MODEL` to use `claude-sonnet-4-6` / `claude-haiku-4-5` for higher-volume, lower cost) and **streams** the reply back over Server-Sent Events.
+- The Westlake Village context (market stats, neighborhoods, listings, comps, behavior rules) lives in `wlv-context.js` and is sent as a **prompt-cached** system prefix. The `cache_control` breakpoint is in place; caching activates once that context exceeds the ~4,096-token model minimum (it grows past that with the live MLS feed). The server logs `cacheRead`/`cacheWrite` token counts each request so you can verify hits.
+- **Lead capture** is structured: Claude calls the `capture_lead` tool once it has a name + email/phone, and `leads.js` records it (demo: appended to `leads.jsonl`). Point this at your CRM/email for production.
 
 ## Going live — replace the placeholders
 
 Everything in `assets/js/data.js` is **illustrative sample data**. To launch for real:
 
 1. **MLS / IDX feed** — replace `WLV.listings`, `WLV.recentSales`, and `WLV.marketStats` with data from your MLS/IDX provider (e.g. SimplyRETS, Spark, IDX Broker). The card/grid/modal renderers in `app.js` already expect this shape.
-2. **AI Concierge** — `botRespond()` in `app.js` is a small rule-based matcher. Point it at an LLM endpoint (e.g. an Anthropic Claude API backend) for true natural-language answers; keep the lead-capture flow.
+2. **AI Concierge** — now wired to Claude via `server/`. Set `ANTHROPIC_API_KEY`, run the Node server, and point `leads.js` at your CRM. (`botRespondFallback()` in `app.js` is the offline rule-based matcher used only when the backend is unreachable.)
 3. **Forms** — the contact and valuation forms are front-end only. Wire them to your CRM, email, or a serverless endpoint.
 4. **Domain & analytics** — deploy to the `homesforsalewestlakevillage.com` domain and add analytics.
 
