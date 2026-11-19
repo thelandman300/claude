@@ -17,7 +17,20 @@ Checked and dropped before screening:
 - Manitowoc Shopko, 3415 Calumet Ave: Ross took part of it; 3-mi pop too low to screen.
 - Joann (16 WI stores) and Big Lots: boxes under 50K SF.
 
+## Owner research (Nov 19, 2026)
+
+| # | Box | Owner of record | Person / contact | Source | Notes |
+|---|---|---|---|---|---|
+| 1 | Wauwatosa, 3201 N Mayfair Rd | Fundamentals Company (Fundamentals Co. Partnership) | c/o Kin Properties, Boca Raton FL. Kin also lists the building for lease on Crexi. | At Home bankruptcy filing, Case 25-11120-JKS, Doc 252 (Jul 8, 2025); BizTimes | Private owner, not a REIT. Contact Kin Properties directly. No skip trace needed. Parcel 152969999005, 10.37 AC, assessed $7.23M (2016). County record not pulled. |
+| 2 | Madison, 53 East Towne Mall | Wisconsin Mall Properties (LLC) | 1004 Commercial Ave #1112, Anacortes WA 98221 (tax mailing address). Russell Jeter named owner and managing member in an older WI court opinion; current role not verified. | City of Madison Assessor, parcel 081027300946 | 14.83 AC (645,995 SF lot). Assessed $3.0M (2025 and 2026). 2025 taxes $55,878. Zoned RMX. Same owner sold the Fond du Lac Younkers to Froedtert in 2022. Skip trace Russell Jeter. |
+| 3 | Appleton, 1000 W Northland Ave | Not found | Broker Colliers (Mark Pucci) | Crexi, Fox 11, WHBY | City approved a Zips Car Wash in Aug 2022 for about 56,000 SF (half the building), developer Mays and Company. Listing still shows 73,111 SF available. Confirm whether Zips was built. |
+
+Blocked:
+- WDFI business search (apps.dfi.wi.gov) blocks automated requests.
+- Wauwatosa and Appleton assessor sites: fetch not permitted in this session.
+
 Still to do:
-- County records for owner of record on 1 to 3, then Secretary of State (WDFI), then skip trace if a person.
+- Skip trace Russell Jeter (Madison). Confirm his role on the WDFI or Washington SOS filing first.
+- Owner of record for Appleton from the City of Appleton assessor.
 - CoStar check on 1 to 3 (needs Jason's Chrome).
 - Clear height and docks on 1 to 3.
