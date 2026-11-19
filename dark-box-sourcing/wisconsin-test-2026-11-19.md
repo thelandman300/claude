@@ -34,3 +34,12 @@ Still to do:
 - Owner of record for Appleton from the City of Appleton assessor.
 - CoStar check on 1 to 3 (needs Jason's Chrome).
 - Clear height and docks on 1 to 3.
+
+## Call list (Nov 19, 2026)
+
+| Box | Call | Number | Email | Source |
+|---|---|---|---|---|
+| Wauwatosa, 3201 N Mayfair Rd | Kin Properties main line (owner's manager). Ask for Daniel Corwin, SVP Head of Real Estate, x114 | (561) 620-9200 | - | ZoomInfo, LoopNet broker profile |
+| Wauwatosa (alt) | Jeff Ross, VP Leasing, Kin Properties (direct line, may be dated) | (561) 988-2823 | - | Showcase profile |
+| Appleton, 1000 W Northland Ave | Mark Pucci, Partner, Colliers Fox Valley (listing broker). Ask owner name and whether Zips was built | (920) 410-5094 | mark.pucci@colliers.com | Colliers flyer |
+| Madison, 53 East Towne Mall | Wisconsin Mall Properties LLC, 1004 Commercial Ave #1112, Anacortes WA 98221. Russell Jeter (managing member, older record); Joe Jeter listed as general partner | No number found | - | Madison Assessor, court opinion, RocketReach |
